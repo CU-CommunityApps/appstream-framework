@@ -27,7 +27,7 @@ foreach ($s3Object in $s3BucketList.ListBucketResult.Contents) {
 }
 
 foreach ($package in $packages) {
-	$s3Key = [System.Uri]"https://s3.amazonaws.com/${S3_BUCKET}/${s3Key}"
+	$s3Key = [System.Uri]"https://s3.amazonaws.com/${S3_BUCKET}/${package}"
 	$zipName = [io.path]::GetFileName($s3Key.AbsolutePath)
 	$baseName = [io.path]::GetFileNameWithoutExtension($s3Key.AbsolutePath)
 	$zipPath = "${WORK_DIR}\${zipName}"
