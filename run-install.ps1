@@ -16,7 +16,7 @@ cd $WORK_DIR
 }#>
 
 $packages = @()
-[xml]$s3BucketList = (Invoke-WebRequest "https://s3.amazonaws.com/${S3_BUCKET}").Content
+$s3BucketList = [xml](Invoke-WebRequest "https://s3.amazonaws.com/${S3_BUCKET}").Content
 
 foreach ($s3Object in $s3BucketList.ListBucketResult.Contents) {
 	$s3Key = $s3Object.Key
