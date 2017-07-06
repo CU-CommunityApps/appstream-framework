@@ -2,6 +2,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 Import-Module BitsTransfer
 
 $S3_BUCKET = "cu-deng-appstream-packages"
+$PS_VERSION = $PSVersionTable.PSVersion.Major
 $WORK_DIR = $env:TEMP
 cd $WORK_DIR
 
@@ -11,7 +12,6 @@ cd $WORK_DIR
 	
 	$form = New-Object System.Windows.Forms.Form
 	$button = New-Object System.Windows.Forms.Button
-	
 	
 }#>
 
@@ -31,16 +31,29 @@ foreach ($package in $packages) {
 	$zipName = [io.path]::GetFileName($s3Key.AbsolutePath)
 	$baseName = [io.path]::GetFileNameWithoutExtension($s3Key.AbsolutePath)
 	$zipPath = "${WORK_DIR}\${zipName}"
-	$extractPath = "${WORK_DIR}\${baseName}"
+	$installPath = "${WORK_DIR}\${baseName}"
 	
 	echo "Downloading Package: ${zipName}..."
 	Start-BitsTransfer $s3Key.AbsoluteUri $zipPath
 	
-	# In PowerShell V5 (Win 10 / 2016) the following can be replaced with: 
-	# Expand-Archive $zipPath -DestinationPath $extractPath
-	
 	echo "Extracting Package: ${zipName}..."
-	[System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $extractPath)
+	if ($PS_VERSION -lt 5) {
+		[System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $installPath)
+	}
+	else {
+		Expand-Archive $zipPath -DestinationPath $installPath
+	}
+	
+	echo "Deleting Archive: ${zipName}..."
+	Remove-Item $zipPath
+	
+	echo "Installing Package..."
+	cd $installPath
+	& .\install.ps1
+	cd $WORK_DIR
+	
+	echo "Deleting Package Install Directory"
+	Remove-Item $installPath -Force -Recurse
 }
 
 echo "Done!"
