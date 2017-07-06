@@ -1,0 +1,1 @@
+This directory should contain binary directories that include the installation files necessary for apps. These will be packaged and deployed to S3, but won't be committed to GitHub.
