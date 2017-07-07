@@ -1,14 +1,15 @@
 # MS PowerShell
 
-$isoimg = "office.iso"
+$KMS_SERVER = 'kms02.cit.cornell.edu'
+$ISO_OFFICE = "office.iso"
 
-Mount-DiskImage -ImagePath $isoimg -StorageType ISO
-$isodrive = (Get-DiskImage -ImagePath $isoimg | Get-Volume).DriveLetter
+Mount-DiskImage -ImagePath $ISO_OFFICE -StorageType ISO
+$isodrive = (Get-DiskImage -ImagePath $ISO_OFFICE | Get-Volume).DriveLetter
 
-echo "${isoimg} Mounted at: ${isodrive}:"
+echo "MS Office ISO Mounted at: ${isodrive}:"
 echo "Installing MS Office..."
 
-$result = & ${isodrive}:\setup.exe /adminfile cu_office_config.MSP | Out-String
+$result = & ${isodrive}:\setup.exe /adminfile cu_office_config.msp | Out-String
 
 echo $result
 
@@ -16,11 +17,11 @@ $officePath = (Get-ItemProperty "hklm:\software\microsoft\windows\currentversion
 echo "MS Office Installed to: $officePath"
 
 echo "Activating MS Office..."
-$result = & cscript ${officePath}ospp.vbs /sethst:kms02.cit.cornell.edu | Out-String
+$result = & cscript ${officePath}ospp.vbs /sethst:$KMS_SERVER | Out-String
 echo $result
 $result = & cscript ${officePath}ospp.vbs /act
 
-echo "Unmounting $isoimg"
-Dismount-DiskImage -ImagePath $isoimg
+echo "Unmounting MS Office ISO"
+Dismount-DiskImage -ImagePath $ISO_OFFICE
 
 echo "Completed Install of MS Office!"
