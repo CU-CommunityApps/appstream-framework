@@ -1,5 +1,8 @@
-*.iso
+cloudformation/*.json
 *.exe
+*.iso
 *.msi
 *.msp
+*.pyc
+*.swp
 *.zip

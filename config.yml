@@ -1,0 +1,13 @@
+# Framework Configuration
+
+DomainName: 'apps.cloud.cit.cornell.edu'
+ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
+Bucket:     'cu-deng-appstream-framework'
+
+VPC:        'vpc-d7408bb0'
+RouteTables:
+  -         'rtb-f5530692'
+  -         'rtb-f7530690'
+
+Tags:
+  Application: 'appstream'
