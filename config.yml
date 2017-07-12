@@ -1,6 +1,9 @@
 # Framework Configuration
 
 DomainName: 'apps.cloud.cit.cornell.edu'
+Redirects:
+  MAE3240: 'citlabs-master-stack'
+
 ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
 Bucket:     'cu-deng-appstream-framework'
 

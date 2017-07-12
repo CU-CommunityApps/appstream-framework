@@ -170,6 +170,7 @@ class GoUtils:
         )
 
         from troposphere.apigateway import (
+            BasePathMapping,
             Deployment,
             DomainName,
             Integration,
@@ -203,6 +204,60 @@ class GoUtils:
             Description='API for portal and redirects for the Cornell AppStream Service',            
         ))
 
+        ####################
+        # Redirect Methods #
+        ####################
+
+        stack_url = "'https://shibidp.cit.cornell.edu/idp/profile/SAML2/Unsolicited/SSO?providerId=urn:amazon:webservices&target=https://appstream2.${AWS::Region}.aws.amazon.com/saml?accountId=${AWS::AccountId}%26stack=${appstream_stack}'"
+        stack_link = '<li><a href="./{redirect}">{redirect}</a></li>'
+
+        methods = []
+        stack_links = ''
+        for redirect in self.config['Redirects'].keys():
+            stack_params = { 'appstream_stack': self.config['Redirects'][redirect] }
+            methods.append('ApiGatewayRedirect' + redirect)
+            stack_links += stack_link.format(redirect=redirect)
+
+            resource = t.add_resource(Resource(
+                'ApiGatewayResource' + redirect,
+                ParentId=GetAtt(api, 'RootResourceId'),
+                PathPart=redirect,
+                RestApiId=Ref(api),
+            ))
+
+            method = t.add_resource(Method(
+                'ApiGatewayRedirect' + redirect,
+                AuthorizationType='None',
+                HttpMethod='ANY',
+                Integration=Integration(
+                    Type='MOCK',
+                    IntegrationResponses=[
+                        IntegrationResponse(
+                            ResponseParameters={
+                                'method.response.header.Location': Sub(stack_url, **stack_params),
+                            },
+                            ResponseTemplates={
+                                'application/json': '{"redirect": 302}'
+                            },
+                            StatusCode='302',
+                        ),
+                    ],
+                    RequestTemplates={
+                        'application/json': '{"statusCode":200}'
+                    },
+                ),
+                MethodResponses=[
+                    MethodResponse(
+                        ResponseParameters={
+                            'method.response.header.Location': True,
+                        },
+                        StatusCode='302',
+                    ),
+                ],
+                ResourceId=Ref(resource),
+                RestApiId=Ref(api),
+            ))            
+
         ###########################
         # API Gateway Root Method #
         ###########################
@@ -222,12 +277,11 @@ class GoUtils:
                             'method.response.header.Content-Type': "'text/html'",
                         },
                         ResponseTemplates={
-                            'text/html': rootTemplate,
+                            'text/html': rootTemplate.format(stack_links=stack_links),
                         },
                         StatusCode='200',
                     ),
                 ],
-                #PassthroughBehavior=
                 RequestTemplates={
                     'application/json': '{"statusCode":200}'
                 },
@@ -252,6 +306,7 @@ class GoUtils:
             'ApiGatewayDeployment' + self.run_time,
             Description='Deployment for API portal and redirects for the Cornell AppStream Service',
             RestApiId=Ref(api),
+            DependsOn=methods + ['ApiGatewayRootMethod'],
         ))
 
         api_stage = t.add_resource(Stage(
@@ -260,6 +315,23 @@ class GoUtils:
             Description='Stage for API portal and redirects for the Cornell AppStream Service',
             RestApiId=Ref(api),
             StageName='apps',
+        ))
+
+        ######################
+        # API Gateway Domain #
+        ######################
+
+        api_domain = t.add_resource(DomainName(
+            'ApiGatewayDomain',
+            CertificateArn=self.config['ACM_ARN'],
+            DomainName=self.config['DomainName'],
+        ))
+
+        api_domain_mapping = t.add_resource(BasePathMapping(
+            'ApiGatewayDomainMapping',
+            DomainName=Ref(api_domain),
+            RestApiId=Ref(api),
+            Stage=Ref(api_stage),
         ))
 
         ###################
