@@ -1,4 +1,5 @@
 import logging
+import re 
 import yaml
 from boto3.session import Session
 from botocore.exceptions import ClientError, WaiterError
@@ -208,25 +209,27 @@ class GoUtils:
         # Redirect Methods #
         ####################
 
-        stack_url = "'https://shibidp.cit.cornell.edu/idp/profile/SAML2/Unsolicited/SSO?providerId=urn:amazon:webservices&target=https://appstream2.${AWS::Region}.aws.amazon.com/saml?accountId=${AWS::AccountId}%26stack=${appstream_stack}'"
-        stack_link = '<li><a href="./{redirect}">{redirect}</a></li>'
+        stack_url = "'https://shibidp.cit.cornell.edu/idp/profile/SAML2/Unsolicited/SSO?providerId=urn:amazon:webservices&target=https://appstream2.{region}.aws.amazon.com/saml?accountId={account}%26stack={stack}'"
+        stack_link = '<li><a href="./{redirect_nal}">{redirect}</a></li>'
 
         methods = []
         stack_links = ''
         for redirect in self.config['Redirects'].keys():
-            stack_params = { 'appstream_stack': self.config['Redirects'][redirect] }
-            methods.append('ApiGatewayRedirect' + redirect)
-            stack_links += stack_link.format(redirect=redirect)
+            redirect_info = self.config['Redirects'][redirect]
+            redirect_nal = re.sub('\W+', '', redirect)
+            redirect_url = stack_url.format(account=redirect_info['account'], region=redirect_info['region'], stack=redirect_info['stack'])
+            methods.append('ApiGatewayRedirect' + redirect_nal)
+            stack_links += stack_link.format(redirect=redirect, redirect_nal=redirect_nal)
 
             resource = t.add_resource(Resource(
-                'ApiGatewayResource' + redirect,
+                'ApiGatewayResource' + redirect_nal,
                 ParentId=GetAtt(api, 'RootResourceId'),
-                PathPart=redirect,
+                PathPart=redirect_nal,
                 RestApiId=Ref(api),
             ))
 
             method = t.add_resource(Method(
-                'ApiGatewayRedirect' + redirect,
+                'ApiGatewayRedirect' + redirect_nal,
                 AuthorizationType='None',
                 HttpMethod='ANY',
                 Integration=Integration(
@@ -234,7 +237,7 @@ class GoUtils:
                     IntegrationResponses=[
                         IntegrationResponse(
                             ResponseParameters={
-                                'method.response.header.Location': Sub(stack_url, **stack_params),
+                                'method.response.header.Location': redirect_url,
                             },
                             ResponseTemplates={
                                 'application/json': '{"redirect": 302}'
