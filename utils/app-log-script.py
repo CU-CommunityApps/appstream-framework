@@ -16,11 +16,17 @@ now = datetime.utcnow()
 item = { }
 
 p = subprocess.Popen(['TASKLIST'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-(out, err) = p.communicate()
+(tasklist, tasklist_err) = p.communicate()
+
+p = subprocess.Popen(['QUERY', 'USER'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+(idle, idle_err) = p.communicate()
 
 item['user'] = os.environ['USERDOMAIN'] + '\\' + os.environ['USERNAME']
 item['time'] = calendar.timegm(now.utctimetuple())
-item['tasklist'] = out
+item['tasklist'] = tasklist + '\r\n'
+item['tasklist_err'] = tasklist_err + '\r\n'
+item['idle'] = idle + '\r\n'
+item['idle_err'] = idle_err + '\r\n'
 
 #print(json.dumps(item))
 table.put_item(Item=item)
