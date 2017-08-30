@@ -7,7 +7,7 @@ from boto3.session import Session
 from datetime import datetime, timedelta
 from time import time
 
-session = Session(region_name='us-east-1')
+session = Session(profile_name='user-logging')
 
 ddb = session.resource('dynamodb')
 table = ddb.Table('appstream-app-metrics')
