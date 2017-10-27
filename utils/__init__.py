@@ -24,6 +24,7 @@ class GoUtils:
         else:
             self.aws = Session(region_name=self.args.region)
 
+        self.appstream = self.aws.client('appstream')
         self.cfn = self.aws.resource('cloudformation')
         self.s3 = self.aws.resource('s3')
 

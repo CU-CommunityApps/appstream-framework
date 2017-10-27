@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from argparse import ArgumentParser
+from utils.imaging import Builder
 from utils import GoUtils
 
 parser = ArgumentParser(description='Cornell University AWS AppStream 2.0 Framework')
@@ -13,6 +14,9 @@ parser.add_argument('-p', '--profile', type=str, default=None, help='The AWS acc
 parser.add_argument('-r', '--region', type=str, default='us-east-1', help='The AWS region to use. Default: us-east-1')
 parser.add_argument('-l', '--log_level', type=str, default='INFO', help='Log Level for Go Script. Default: INFO')
 
+parser.add_argument('-b', '--build_image', action='store_true', help='Auto-Deploy Image Builder')
+parser.add_argument('--packages', nargs='+', type=str, help='List of software packages to install')
+
 args = parser.parse_args()
 utils = GoUtils(args)
 
@@ -20,3 +24,8 @@ t = utils.get_framework_template()
 
 if args.deploy:
     utils.deploy_template(args.stack, t, utils.config['Tags'])
+
+elif args.build_image:
+    b = Builder(utils)
+    b.deploy_image_config()
+    b.deploy_image_builder()
