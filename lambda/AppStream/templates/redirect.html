@@ -1,0 +1,6 @@
+    <h2>Redirect</h2><p>Your credentials are being transmitted to the website via POST. <noscript>If you are not automatically redirected please click the continue button below.<br></noscript>
+    <form name="credentials" enctype="application/x-www-form-urlencoded" method="POST" action={Redirect}>
+      <input type="hidden" name="credentials" value={Credentials} />
+      <input type="hidden" name="errors" value={Error} />
+      <noscript><input type="submit" value="Continue" /></noscript>
+    </form>

@@ -2,15 +2,30 @@
 
 DomainName: 'apps.cloud.cit.cornell.edu'
 Redirects:
-  MAE 3270/4700/5700: 
+  CIT Demo:
     account:    '530735016655'
     region:     'us-east-1'
-    stack:      'citlabs-master-stack'
+    stack:      'cit-demo-v2'
 
-  INFO 4940:
-    account:    '589868485103'
+  MAE 1130: 
+    account:    '530735016655'
     region:     'us-east-1'
-    stack:      'bi-pilot-prod'
+    stack:      'mae-production'
+
+  MAE 2250: 
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae-production'
+
+  MAE 3280: 
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae-production'
+
+  MAE 4230/5230: 
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae-production'
 
 ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
 Bucket:     'cu-deng-appstream-framework'

@@ -1,0 +1,272 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: API Gateway Stage Template for AppStream-stream
+Resources:
+  AppStreamStage:
+    Properties:
+      DeploymentId:
+        Ref: AppStreamStageDeploymentstream56c0a8d6ebe862008281d27214e4b006
+      Description: Stage for AppStream stream Stage.
+      MethodSettings:
+      - DataTraceEnabled: true
+        HttpMethod: '*'
+        LoggingLevel: INFO
+        ResourcePath: /*
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+      StageName: stream
+    Type: AWS::ApiGateway::Stage
+  AppStreamStageAdminFunctionRolestream:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+      Path: /service-role/AppStream/stream/
+      Policies:
+      - PolicyDocument:
+          Fn::Sub:
+          - "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n\
+            \            \"Effect\": \"Allow\",\n            \"Action\": \"logs:CreateLogGroup\"\
+            ,\n            \"Resource\": \"arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*\"\
+            \n        },\n        {\n            \"Effect\": \"Allow\",\n        \
+            \    \"Action\": [\n                \"logs:CreateLogStream\",\n      \
+            \          \"logs:PutLogEvents\"\n            ],\n            \"Resource\"\
+            : [\n                \"arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${FunctionName}:*\"\
+            \n            ]\n        }\n    ]\n}\n"
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageAdminFunctionstream
+            Stage: stream
+        PolicyName: AppStreamStageAdminFunctionPolicystream
+      RoleName: AppStreamStageAdminFunctionRolestream
+    Type: AWS::IAM::Role
+  AppStreamStageAdminFunctionstream:
+    Properties:
+      Code:
+        S3Bucket: appstreamapi-appstreamdeploymentbucket-4sfnv1hkos0y
+        S3Key: 5224ea2d041eed19b921274fd7d62e53
+      Description: 'API Proxy Function for Stage: AppStream-stream'
+      Environment:
+        Variables:
+          APP_NAME: AppStream
+          STAGE_NAME: stream
+      FunctionName: AppStreamStageAdminFunctionstream
+      Handler: handler.lambda_handler
+      MemorySize: 128
+      Role:
+        Fn::GetAtt:
+        - AppStreamStageAdminFunctionRolestream
+        - Arn
+      Runtime: python2.7
+      Tags:
+      - Key: Application
+        Value: AppStreamFramework
+      - Key: Environment
+        Value: Prod
+      Timeout: 30
+    Type: AWS::Lambda::Function
+  AppStreamStageAdminPathMethodstream:
+    Properties:
+      AuthorizationType: AWS_IAM
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Sub:
+          - arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${FunctionName}/invocations
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageAdminFunctionstream
+            ResourcePath: admin/*
+            Stage: stream
+      ResourceId:
+        Ref: AppStreamStageAdminPathResourcestream
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Method
+  AppStreamStageAdminPathResourcestream:
+    Properties:
+      ParentId:
+        Fn::ImportValue: AppStreamApiRoot
+      PathPart: admin
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Resource
+  AppStreamStageAdminPermissionstream:
+    DependsOn:
+    - AppStreamStageAdminFunctionstream
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: AppStreamStageAdminFunctionstream
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Sub:
+        - arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Api}/${Stage}/*/${ResourcePath}
+        - Api:
+            Fn::ImportValue: AppStreamApi
+          FunctionName: AppStreamStageAdminFunctionstream
+          ResourcePath: admin/*
+          Stage: stream
+    Type: AWS::Lambda::Permission
+  AppStreamStageAdminProxyMethodstream:
+    Properties:
+      AuthorizationType: AWS_IAM
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Sub:
+          - arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${FunctionName}/invocations
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageAdminFunctionstream
+            ResourcePath: admin/*
+            Stage: stream
+      ResourceId:
+        Ref: AppStreamStageAdminProxyResourcestream
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Method
+  AppStreamStageAdminProxyResourcestream:
+    Properties:
+      ParentId:
+        Ref: AppStreamStageAdminPathResourcestream
+      PathPart: '{proxy+}'
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Resource
+  AppStreamStageDeploymentstream56c0a8d6ebe862008281d27214e4b006:
+    DependsOn:
+    - AppStreamStageRootPathMethodstream
+    - AppStreamStageRootProxyMethodstream
+    - AppStreamStageAdminPathMethodstream
+    - AppStreamStageAdminProxyMethodstream
+    Properties:
+      Description: Deployment for AppStream stream Stage
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Deployment
+  AppStreamStageRootPathMethodstream:
+    Properties:
+      AuthorizationType: None
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Sub:
+          - arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${FunctionName}/invocations
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageUnAuthFunctionstream
+            ResourcePath: '*'
+            Stage: stream
+      ResourceId:
+        Fn::ImportValue: AppStreamApiRoot
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Method
+  AppStreamStageRootPermissionstream:
+    DependsOn:
+    - AppStreamStageUnAuthFunctionstream
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: AppStreamStageUnAuthFunctionstream
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Sub:
+        - arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Api}/${Stage}/*/${ResourcePath}
+        - Api:
+            Fn::ImportValue: AppStreamApi
+          FunctionName: AppStreamStageUnAuthFunctionstream
+          ResourcePath: '*'
+          Stage: stream
+    Type: AWS::Lambda::Permission
+  AppStreamStageRootProxyMethodstream:
+    Properties:
+      AuthorizationType: None
+      HttpMethod: ANY
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Sub:
+          - arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${FunctionName}/invocations
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageUnAuthFunctionstream
+            ResourcePath: '*'
+            Stage: stream
+      ResourceId:
+        Ref: AppStreamStageRootProxyResourcestream
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Method
+  AppStreamStageRootProxyResourcestream:
+    Properties:
+      ParentId:
+        Fn::ImportValue: AppStreamApiRoot
+      PathPart: '{proxy+}'
+      RestApiId:
+        Fn::ImportValue: AppStreamApi
+    Type: AWS::ApiGateway::Resource
+  AppStreamStageUnAuthFunctionRolestream:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+      Path: /service-role/AppStream/stream/
+      Policies:
+      - PolicyDocument:
+          Fn::Sub:
+          - "{\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n\
+            \            \"Effect\": \"Allow\",\n            \"Action\": \"logs:CreateLogGroup\"\
+            ,\n            \"Resource\": \"arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*\"\
+            \n        },\n        {\n            \"Effect\": \"Allow\",\n        \
+            \    \"Action\": [\n                \"logs:CreateLogStream\",\n      \
+            \          \"logs:PutLogEvents\"\n            ],\n            \"Resource\"\
+            : [\n                \"arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${FunctionName}:*\"\
+            \n            ]\n        }\n    ]\n}\n"
+          - Api:
+              Fn::ImportValue: AppStreamApi
+            FunctionName: AppStreamStageUnAuthFunctionstream
+            Stage: stream
+        PolicyName: AppStreamStageUnAuthFunctionPolicystream
+      RoleName: AppStreamStageUnAuthFunctionRolestream
+    Type: AWS::IAM::Role
+  AppStreamStageUnAuthFunctionstream:
+    Properties:
+      Code:
+        S3Bucket: appstreamapi-appstreamdeploymentbucket-4sfnv1hkos0y
+        S3Key: 5224ea2d041eed19b921274fd7d62e53
+      Description: 'API Proxy Function for Stage: AppStream-stream'
+      Environment:
+        Variables:
+          APP_NAME: AppStream
+          STAGE_NAME: stream
+      FunctionName: AppStreamStageUnAuthFunctionstream
+      Handler: handler.lambda_handler
+      MemorySize: 128
+      Role:
+        Fn::GetAtt:
+        - AppStreamStageUnAuthFunctionRolestream
+        - Arn
+      Runtime: python2.7
+      Tags:
+      - Key: Application
+        Value: AppStreamFramework
+      - Key: Environment
+        Value: Prod
+      Timeout: 30
+    Type: AWS::Lambda::Function
