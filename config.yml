@@ -7,25 +7,20 @@ Redirects:
     region:     'us-east-1'
     stack:      'cit-demo-v2'
 
-  MAE 1130: 
+  CISER DSOC6190:
     account:    '530735016655'
     region:     'us-east-1'
-    stack:      'mae-production'
+    stack:      'ciser-dsoc6190-prod'
 
-  MAE 2250: 
+  CISER GOV6019:
     account:    '530735016655'
     region:     'us-east-1'
-    stack:      'mae-production'
+    stack:      'ciser-gov6019-prod'
 
-  MAE 3280: 
+  CISER HD2830:
     account:    '530735016655'
     region:     'us-east-1'
-    stack:      'mae-production'
-
-  MAE 4230/5230: 
-    account:    '530735016655'
-    region:     'us-east-1'
-    stack:      'mae-production'
+    stack:      'ciser-hd2830-prod'
 
 ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
 Bucket:     'cu-deng-appstream-framework'
