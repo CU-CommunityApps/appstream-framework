@@ -7,20 +7,25 @@ Redirects:
     region:     'us-east-1'
     stack:      'cit-demo-v2'
 
-  CISER DSOC6190:
+  DSOC6190:
     account:    '530735016655'
     region:     'us-east-1'
     stack:      'ciser-dsoc6190-prod'
 
-  CISER GOV6019:
+  GOV6019:
     account:    '530735016655'
     region:     'us-east-1'
     stack:      'ciser-gov6019-prod'
 
-  CISER HD2830:
+  HD2830:
     account:    '530735016655'
     region:     'us-east-1'
     stack:      'ciser-hd2830-prod'
+
+  INFO4940:
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'cis-info4940'
 
 ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
 Bucket:     'cu-deng-appstream-framework'
