@@ -215,7 +215,7 @@ class GoUtils:
 
         methods = []
         stack_links = ''
-        for redirect in self.config['Redirects'].keys():
+        for redirect in sorted(self.config['Redirects'].keys()):
             redirect_info = self.config['Redirects'][redirect]
             redirect_nal = re.sub('\W+', '', redirect)
             redirect_url = stack_url.format(account=redirect_info['account'], region=redirect_info['region'], stack=redirect_info['stack'])
