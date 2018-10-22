@@ -27,6 +27,21 @@ Redirects:
     region:     'us-east-1'
     stack:      'cis-info4940'
 
+  MAE3270:
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae.fall-18.prod'
+
+  MAE4020/4021/5020:
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae.fall-18.prod'
+
+  MAE4700/4701/5700:
+    account:    '530735016655'
+    region:     'us-east-1'
+    stack:      'mae.fall-18.prod'
+
 ACM_ARN:    'arn:aws:acm:us-east-1:530735016655:certificate/eee571e2-c4cf-4205-b32b-c04a9ad4c338'
 Bucket:     'cu-deng-appstream-framework'
 
