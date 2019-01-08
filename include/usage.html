@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-<title>Apps on Demand Portal</title>
+<title>IT@Cornell HTML Build</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
@@ -21,8 +21,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="style/ie8.css">
 	<![endif]-->
 
-	<!--<script src="js/jquery-1.12.3.min.js"></script>-->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-1.12.3.min.js"></script>
 
 	<script src="js/jquery-migrate-1.3.0.min.js"></script>
 	<script src="js/jquery-ui-easing.min.js"></script>
@@ -33,12 +32,8 @@
 	<script src="js/framework/cwd_utilities.js"></script>
 	<script src="js/framework/itc.js"></script>
 
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.structure.min.css">
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.theme.min.css">
-
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
-
+	
 	<!-- API Gateway Scripts -->
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
@@ -51,11 +46,25 @@
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/apigClient.js"></script>
-
+	
 	<script type="text/javascript" src="/api/js/cornell-serverless.js"></script>
 	<script type="text/javascript" src="/api/js/cornell-stream.js"></script>
 
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.structure.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.theme.min.css">
+
+	<link rel="stylesheet" type="text/css" media="all" href="style/highcharts.css">
+
 	<script src="js/datepicker/jquery-ui.min.js"></script>
+
+	<script src="js/highcharts/highcharts.js"></script>
+	<script src="js/highcharts/series-label.js"></script>
+	<script src="js/highcharts/exporting.js"></script>
+	<script src="js/highcharts/export-data.js"></script>
+
+	<script src="js/highcharts/accessibility.js"></script>
+
 
 
 </head>
@@ -186,26 +195,20 @@
 
 			<div class="secondary border-box" id="sidebar-top">
 
-				<h2 class="sans">AppStream Links</h2>
+				<h2 class="sans">Primary Sidebar Content</h2>
 
 				<ul class="list-menu links vertical">
 					<li>
 						<a href="index.html">Home</a>
 					</li>
 					<li>
-						<a href="units.html">Billing Units</a>
-					</li>
-					<li>
-						<a href="networks.html">Network Configurations</a>
+						<a href="units.html">Units</a>
 					</li>
 					<li>
 						<a href="deployments.html">Deployments</a>
 					</li>
 					<li>
-						<a href="schedules.html">Deployment Schedules</a>
-					</li>
-					<li>
-						<a href="package.html">Packages</a>
+						<a href="packages.html">Packages</a>
 					</li>
 					<li>
 						<a href="usage.html">Usage</a>
@@ -221,33 +224,73 @@
 
 					<section aria-labelledby="appstream-title">
 
-						<h1 id="appstream-title">
-							<span class="zmdi zmdi-open-in-browser appstream-icon"></span>
-							Apps on Demand Application Portal
-						</h1>
+						<h1 id="appstream-title">AppStream Usage</h1>
 
-						<div class="dropdown-list-wrapper">
+						<div class="group form-basic">
+							<h2>Deployments</h2>
+							<table class="table bordered striped action-table">
+								<thead>
+									<th>Name</th>
+									<th>Type</th>
+									<th>...</th>
+									<th>...</th>
+									<th class="action-column">Show In Chart?</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Name #1</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td class="action-column">
+											<label class="plain">
+												<span class="sr-only">
+													Show this Deployment in chart?
+												</span>
+												<input type="checkbox">
+											</label>
 
-							<button aria-haspopup="true" class="dropdown-list-button">Choose a course <span class="fa fa-caret-down" aria-hidden="true"></span></button>
+										</td>
+									</tr>
+									<tr>
+										<td>Name #2</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td class="action-column">
+											<label class="plain">
+												<span class="sr-only">
+													Show this Deployment in chart?
+												</span>
+												<input type="checkbox">
+											</label>
 
-							<ul aria-role="menu" aria-expanded="false" class="dropdown-list list-menu links vertical">
+										</td>
+									</tr>
+									<tr>
+										<td>Name #3</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td>ok</td>
+										<td class="action-column">
+											<label class="plain">
+												<span class="sr-only">
+													Show this Deployment in chart?
+												</span>
+												<input type="checkbox">
+											</label>
 
-								<ul>{stack_links}</ul>
-								<!-- <li><a href="http://www.google.com" role="menuitem">MAE 4230/5230</a></li>
-								<li><a href="#" role="menuitem">CIT Demo</a></li>
-								<li><a href="#" role="menuitem">MAE 1130</a></li>
-								<li><a href="#" role="menuitem">MAE 2250</a></li>
-								<li><a href="#" role="menuitem">MAE 3280</a></li> -->
-
-							</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 
 						</div>
 
-						<p>Please <a href="https://cornell.qualtrics.com/jfe/form/SV_2gzMh6zihPBbGKh" target="_blank">give us feedback</a> on your experience with AppStream. We can almost certainly improve any aspect of your experience, but we need to know what you would like changed. We would especially like to know if you really like using AppStream!</p>
 
-						<p>For help, please take a look at our <a href="https://confluence.cornell.edu/pages/viewpage.action?pageId=347343094" target="_blank">documentation page</a>. There is a video and written instructions with screenshots.</p>
-
-						<p>For support, please send an email to <a href="mailto:appstream@cornell.edu">appstream@cornell.edu</a> and we will be in touch within one business day.</p>
+						<div class="group">
+							<div id="usage-chart"></div>
+						</div>
 
 
 					</section>
@@ -305,28 +348,94 @@
 		</div>
 	</footer>
 
-	<script src="js/datepicker/datepicker-accessible-extensions.js"></script>
 	<script>
-	    $(".dropdown-list-wrapper button").keydown(function() {
-	    	openMenu($(this));
-		    $(this).next('.dropdown-list').find('li:first-of-type a').focus();
-	        return false;
-	    }).click(function() {
-	    	openMenu($(this));
-	        return false;
-	    });
+		Highcharts.setOptions({
 
-	    function openMenu(el) {
-		    $(el).next('.dropdown-list').find('li:first-of-type a').focus();
-		    $(el).closest('.dropdown-list-wrapper').toggleClass('open');
-	    }
 
-		$('body').click(function(e){
-		    if (!$(e.target).is('.dropdown-list-wrapper button')) {
-		        $('.dropdown-list-wrapper').removeClass('open');
-		        $('.dropdown-list').attr('aria-expanded',false)
+		    chart: {
+		        style: {
+		            fontFamily: 'Avenir Next'
+		        }
+		    },
+		    credits: {
+		      enabled: false
+		    },
+		    legend: {
+		      enabled: false
+		    },
+		});
+
+
+		Highcharts.chart('usage-chart', {
+		  title: {
+		    text: 'Cornell AppStream Usage'
+		  },
+
+		  // subtitle: {
+		  //   text: 'Source: thesolarfoundation.com'
+		  // },
+
+		  yAxis: {
+		    title: {
+		      text: 'Users'
 		    }
+		  },
+
+		  xAxis: {
+		  	type: 'datetime',
+	        dateTimeLabelFormats: {
+	            week: '%b %e',
+	            day: '%b %e',
+	            month: '%b of %y'
+	        }
+
+		  },
+
+
+		  legend: {
+		    layout: 'vertical',
+		    align: 'right',
+		    verticalAlign: 'middle'
+		  },
+
+		  // plotOptions: {
+		  //   series: {
+		  //     label: {
+		  //       connectorAllowed: false
+		  //     },
+		  //     pointStart: 2010
+		  //   }
+		  // },
+
+		  series: [{
+		    name: 'Name #1',
+		    data: [439, 525, 571, 696, 970, 1199, 1371, 1541],
+	        pointStart: Date.UTC(2018, 0, 1),
+	        pointInterval: 24 * 3600 * 10000
+		  }, {
+		    name: 'Name #2',
+		    data: [129, 59, 810, 112, 898, 1181, 1827, 1811],
+	        pointStart: Date.UTC(2018, 0, 1),
+	        pointInterval: 24 * 3600 * 10000
+		  }],
+
+		  responsive: {
+		    rules: [{
+		      condition: {
+		        maxWidth: 500
+		      },
+		      chartOptions: {
+		        legend: {
+		          layout: 'horizontal',
+		          align: 'center',
+		          verticalAlign: 'bottom'
+		        }
+		      }
+		    }]
+		  }
+
 		});
 	</script>
+
 </body>
 </html>

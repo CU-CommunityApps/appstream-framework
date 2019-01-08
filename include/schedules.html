@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<title>Deployment Management | Cornell Stream | IT@Cornell</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+	<link rel="stylesheet" type="text/css" media="all" href="fonts/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="fonts/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="fonts/service-logos.css">
+	<link rel="stylesheet" type="text/css" media="all" href="fonts/cornell-custom.css">
+
+	<link rel="stylesheet" type="text/css" media="all" href="style/cornell.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/base.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/cwd_utilities.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/itc.css">
+
+	<link rel="stylesheet" type="text/css" media="all" href="style/overrides.css">
+
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" media="screen" href="style/ie8.css">
+	<![endif]-->
+
+	<script src="js/jquery-1.12.3.min.js"></script>
+
+	<script src="js/jquery-migrate-1.3.0.min.js"></script>
+	<script src="js/jquery-ui-easing.min.js"></script>
+	<script src="js/placeholders.min.js"></script>
+	<script src="js/pointer_events_polyfill.js"></script>
+	<script src="js/modernizr.js"></script>
+	<script src="js/framework/cwd.js"></script>
+	<script src="js/framework/cwd_utilities.js"></script>
+	<script src="js/framework/itc.js"></script>
+	
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+	
+	<!-- API Gateway Scripts -->
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/url-template/url-template.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
+	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/apigClient.js"></script>
+	
+	<script type="text/javascript" src="/api/js/cornell-serverless.js"></script>
+	<script type="text/javascript" src="/api/js/cornell-stream.js"></script>
+
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.structure.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.theme.min.css">
+
+	<script src="js/datepicker/jquery-ui.min.js"></script>
+
+
+	<script type="text/javascript">
+		/*global CornellStream*/
+		
+		var cu_stream = null;
+		
+		window.addEventListener('load', function(e) {
+			cu_stream = new CornellStream();
+			cu_stream.init_schedule_page();
+		});
+	</script>
+
+</head>
+<body class="cu-red45 cu-2014 campaign sidebar sidebar-right sidebar-tint sidebar-tint-edge node-type-knowledge-base-article">
+
+	<div id="skipnav"><a href="#main" tabindex="1">Skip to main content</a></div>
+
+	<header class="band" role="banner">
+
+		<!-- Cornell Search (2014 only) -->
+		<div class="band" id="cu-search-band">
+			<div class="container">
+
+				<div class="valign">
+					<div id="cu-search" class="options" role="search">
+						<form action="https://www.cornell.edu/search/">
+							<label for="search-form-query" class="sans">Search:</label>
+							<input type="text" id="search-form-query" name="s" value="" size="30" />
+							<button name="btnG" id="search-form-submit" type="submit" value="go"><span class="fa fa-chevron-right"></span><span class="hidden">Go</span></button>
+
+							<div class="search-filters">
+								<h2 class="hidden">Search Filters:</h2>
+								<input type="radio" id="search-filters1" name="sitesearch" value="thissite" checked="checked">
+								<label for="search-filters1">This Site</label>
+								<input type="radio" id="search-filters2" name="sitesearch" value="cornell">
+								<label for="search-filters2">Cornell</label>
+							</div>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Cornell Identity -->
+		<div class="band" id="cu-identity">
+			<div class="container">
+				<div id="banner-buttons">
+					<a class="mobile-button" id="mobile-nav" href="#aria-main-nav">Menu</a>
+					<a class="mobile-button" id="search-button" href="#search-form">Search Cornell</a>
+				</div>
+				<div id="cu-logo">
+					<a href="https://www.cornell.edu/"><img src="images/cornell_identity/culogo_hd.gif" width="179" height="45" alt="Cornell University"></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="band -campaign campaign-invert -photo-tint -photo-gradient -photo-gradient-topdown -photo-texture-light max-width favor-top" id="site-header">
+			<div class="band stunt-double"></div>
+
+			<div class="container">
+				<div id="site-titles">
+					<div class="valign">
+						<a href="itc_home.html">
+							<h1><img src="images/itc/itclogo_print.png" alt="IT@Cornell Home" width="180" height="62"></h1>
+							<!-- <h1>IT@Cornell</h1> -->
+							<!-- <h2 class="sans hidden">Services A-Z</h2> -->
+							<a href="nested.html"><h2 class="sans">Services A-Z</h2></a>
+						</a>
+					</div>
+				</div>
+
+				<nav id="main-navigation" aria-label="Main Navigation" class="sans">
+					<div class="valign">
+						<a id="mobile-home" href="#"><span class="hidden">Home</span></a>
+						<ul class="list-menu links">
+							<li><a href="https://it.cornell.edu/services">Services</a></li>
+							<li><a href="https://it.cornell.edu/support">Support</a></li>
+							<li><a href="https://it.cornell.edu/security-and-policy">Security & Policy</a></li>
+							<li><a href="https://it.cornell.edu/teaching-learning">Teaching & Research</a></li>
+							<li><a href="https://it.cornell.edu/news">News</a></li>
+							<li><a href="https://it.cornell.edu/about-itcornell">About Us</a></li>
+						</ul>
+					</div>
+				</nav>
+
+			</div>
+		</div>
+
+	</header>
+
+	<section class="band" id="subheader">
+		<h2 class="hidden">Quick Links and Search</h2>
+		<div class="container">
+
+			<div aria-label="Quick Search" id="quick-search" role="search">
+				<form action="https://www.cornell.edu/search/">
+					<!-- <label for="quick-search-query" class="sans hidden">Search:</label> -->
+					<input type="text" id="quick-search-query" name="s" value="" size="30" placeholder="Google Search..." required>
+					<button name="btnG" id="quick-search-submit" type="submit" value="go"><span class="fa fa-search"></span><span class="hidden">Go</span></button>
+				</form>
+			</div>
+
+			<nav aria-label="Quick Links" id="quick-links">
+				<ul class="list-menu links sans">
+					<li class="parent"><a class="link-block link-icon-right" href="#">Login Links<span class="fa fa-caret-down"></span></a>
+						<ul class="list-menu links vertical children">
+							<li><a href="http://blackboard.cornell.edu/">Blackboard</a></li>
+							<li><a href="http://cmail.cornell.edu/">Cmail (Student Email)</a></li>
+							<li><a href="http://cornell.box.com/">Cornell Box</a></li>
+							<li><a href="https://dropbox.cornell.edu">Cornell Dropbox</a></li>
+							<li><a href="http://facultycenter.cornell.edu/">Faculty Center</a></li>
+							<li><a href="http://nubb.cornell.edu/">NUBB (student Internet use billing)</a></li>
+							<li><a href="http://outlook.cornell.edu/">Outlook on the Web</a></li>
+							<li><a href="https://www.studentessentials.cornell.edu/">Student Essentials</a></li>
+							<li><a href="http://workday.cornell.edu/">Workday</a></li>
+							<li class="more"><a href="https://it.cornell.edu/node/4294">more links</a></li>
+						</ul>
+					</li>
+					<li class="parent pages-for"><a class="link-block link-icon-right" href="#" data-menu-id="1">Services for...<span class="fa fa-caret-down"></span></a>
+							<ul class="list-menu links vertical children"><a href="#" class="popup-close" tabindex="0" aria-label="Close Button"></a>
+								<li><a href="https://it.cornell.edu/students">Students</a></li>
+								<li><a href="https://it.cornell.edu/faculty">Faculty</a></li>
+								<li><a href="https://it.cornell.edu/staff">Staff</a></li>
+								<li><a href="https://it.cornell.edu/it-professionals">IT Professionals</a></li>
+								<li><a href="https://it.cornell.edu/alumni-and-visitors">Alumni &amp; Visitors</a></li>
+							</ul>
+						</li>
+				</ul>
+			</nav>
+
+		</div>
+	</section>
+	<section class="band" id="main-content">
+		<div class="band stunt-double"><div class="container stunt-double"></div></div>
+
+		<div class="container">
+
+			<div class="secondary border-box" id="sidebar-top">
+
+				<h2 class="sans">Primary Sidebar Content</h2>
+
+				<ul class="list-menu links vertical">
+					<li>
+						<a href="index.html">Home</a>
+					</li>
+					<li>
+						<a href="units.html">Billing Units</a>
+					</li>
+					<li>
+						<a href="networks.html">Network Configurations</a>
+					</li>
+					<li>
+						<a href="deployments.html">Deployments</a>
+					</li>
+					<li>
+						<a href="schedules.html">Deployment Schedules</a>
+					</li>
+					<li>
+						<a href="packages.html">Packages</a>
+					</li>
+					<li>
+						<a href="usage.html">Usage</a>
+					</li>
+
+				</ul>
+
+
+			</div>
+			
+			
+			
+			
+			
+			<!-- MAIN CONTENT -->
+			
+			
+			
+			
+			
+
+			<main id="main" tabindex="-1" class="aria-target border-box">
+				<article>
+
+					<section aria-labelledby="appstream-title">
+
+						<h1 id="appstream-title">AppStream</h1>
+
+						<form class="form-basic">
+
+							<div class="group">
+								<h2>Filter by Unit</h2>
+								<p>Please choose a unit. Selecting a unit will change the list of available deployments.</p>
+
+								<label for="cu-stream-unit-select">Unit</label>
+								<select name="unit-select" id="cu-stream-unit-select" onchange="cu_stream.list_deployments(this.value);">
+									<option value=" " selected disabled hidden>Select a Unit to view its Deployments...</option>
+								</select>
+							</div>
+							
+							<div class="group">
+								<h2>Filter by Deployment</h2>
+								<p>Please choose a deployment. Selecting a deployment will change the list of available deployment schedules.</p>
+								
+								<label for="cu-stream-deployment-select">Deployment</label>
+								<select name="deployment-select" id="cu-stream-deployment-select" onchange="cu_stream.edit_deployment(this.value);">
+									<option value=" " selected disabled hidden>Select a Deployment to view its schedules...</option>
+								</select>
+							</div>
+
+							<div class="group">
+								<h2>Select a Deployment Schedule</h2>
+								<p>Please choose a deployment schedule. Selecting a schedule will populate the form below with information about the schedule.</p>
+								
+								<label for="cu-stream-deployment-select">Deployment</label>
+								<select name="deployment-select" id="cu-stream-schedule-select" onchange="cu_stream.edit_schedule(this.value);">
+									<option value=" " selected disabled hidden>Select a Deployment Schedule to view its configuration...</option>
+								</select>
+							</div>
+
+							<div class="group">
+								<h2>Create, Update or Delete a Deployment</h2>
+
+								<div class="two-col form-col">
+									<div class="col-wide">
+										<label for="cu-stream-schedule-name">Schedule Name</label>
+										<input id="cu-stream-schedule-name" type="text" />
+									</div>
+									
+									<div class="col-wide">
+										<label for="cu-stream-deployment-email">Contact / Tester Email</label>
+										<input id="cu-stream-deployment-email" type="text" />
+									</div>
+								</div>
+								
+								<div class="three-col form-col">
+									<div class="col-wide">
+										<label for="name">Deployment Name</label>
+										<input type="text" id="name" />
+									</div>
+
+									<div class="col-wide">
+										<label for="type">Deployment Type</label>
+										<select name="type" id="type">
+											<option value="Lab">Lab</option>
+											<option value="Assignment">Assignment</option>
+											<option value="Free">Free</option>
+											<option value="Restricted">Restricted</option>
+										</select>
+									</div>
+
+									<div>
+										<label for="users">Number of Users</label>
+										<input type="text" id="users" />
+									</div>
+
+								</div>
+
+								<div class="two-col form-col">
+									<div>
+
+										<div class="datepicker-wrapper">
+											<label for="start-date">Start Date</label>
+
+											<input type="text" id="start-date" class="datepicker" aria-label="Format: DD/MM/YYYY. " />
+										</div>
+
+										<label for="start-time">Start Time</label>
+
+										<div class="two-col form-col">
+
+											<div>
+												<input type="text" id="start-time" class='time-input aria-label="Format: XX colon XX AM or PM. Or choose a time from the following list."'>
+											</div>
+
+											<div>
+												<select id="start-time-select" class="timepicker">
+													<option value="8:00 AM"> 8:00 AM </option>
+													<option value="8:30 AM"> 8:30 AM </option>
+													<option value="9:00 AM"> 9:00 AM </option>
+													<option value="9:30 AM"> 9:30 AM </option>
+													<option value="10:00 AM"> 10:00 AM </option>
+													<option value="10:30 AM"> 10:30 AM </option>
+													<option value="11:00 AM"> 11:00 AM </option>
+													<option value="11:30 AM"> 11:30 AM </option>
+													<option value="12:00 PM"> 12:00 PM </option>
+													<option value="12:30 PM"> 12:30 PM </option>
+													<option value="1:00 PM"> 1:00 PM </option>
+													<option value="1:30 PM"> 1:30 PM </option>
+													<option value="2:00 PM"> 2:00 PM </option>
+													<option value="2:30 PM"> 2:30 PM </option>
+													<option value="3:00 PM"> 3:00 PM </option>
+													<option value="3:30 PM"> 3:30 PM </option>
+													<option value="4:00 PM"> 4:00 PM </option>
+													<option value="4:30 PM"> 4:30 PM </option>
+													<option value="5:00 PM"> 5:00 PM </option>
+													<option value="5:30 PM"> 5:30 PM </option>
+													<option value="6:00 PM"> 6:00 PM </option>
+													<option value="6:30 PM"> 6:30 PM </option>
+													<option value="7:00 PM"> 7:00 PM </option>
+													<option value="7:30 PM"> 7:30 PM </option>
+													<option value="8:00 PM"> 8:00 PM </option>
+													<option value="8:30 PM"> 8:30 PM </option>
+													<option value="9:00 PM"> 9:00 PM </option>
+													<option value="9:30 PM"> 9:30 PM </option>
+													<option value="10:00 PM"> 10:00 PM </option>
+													<option value="10:30 PM"> 10:30 PM </option>
+													<option value="11:00 PM"> 11:00 PM </option>
+													<option value="11:30 PM"> 11:30 PM </option>
+													<option value="11:45 PM"> 11:45 PM </option>
+													<option value="12:00 AM"> 12:00 AM </option>
+													<option value="12:30 AM"> 12:30 AM </option>
+													<option value="1:00 AM"> 1:00 AM </option>
+													<option value="1:30 AM"> 1:30 AM </option>
+													<option value="2:00 AM"> 2:00 AM </option>
+													<option value="2:30 AM"> 2:30 AM </option>
+													<option value="3:00 AM"> 3:00 AM </option>
+													<option value="3:30 AM"> 3:30 AM </option>
+													<option value="4:00 AM"> 4:00 AM </option>
+													<option value="4:30 AM"> 4:30 AM </option>
+													<option value="5:00 AM"> 5:00 AM </option>
+													<option value="5:30 AM"> 5:30 AM </option>
+													<option value="6:00 AM"> 6:00 AM </option>
+													<option value="6:30 AM"> 6:30 AM </option>
+													<option value="7:00 AM"> 7:00 AM </option>
+													<option value="7:30 AM"> 7:30 AM </option>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div>
+
+										<div class="datepicker-wrapper">
+											<label for="end-date">End Date</label>
+
+											<input type="text" id="end-date" class="datepicker" />
+										</div>
+
+										<label for="end-time">End Time</label>
+
+										<div class="two-col form-col">
+
+											<div>
+												<input type="text" id="end-time" class="time-input" aria-label="Format: XX colon XX AM or PM. Or choose a time from the following list.">
+											</div>
+
+											<div>
+												<select id="end-time-select" class="timepicker">
+													<option value="8:00 AM"> 8:00 AM </option>
+													<option value="8:30 AM"> 8:30 AM </option>
+													<option value="9:00 AM"> 9:00 AM </option>
+													<option value="9:30 AM"> 9:30 AM </option>
+													<option value="10:00 AM"> 10:00 AM </option>
+													<option value="10:30 AM"> 10:30 AM </option>
+													<option value="11:00 AM"> 11:00 AM </option>
+													<option value="11:30 AM"> 11:30 AM </option>
+													<option value="12:00 PM"> 12:00 PM </option>
+													<option value="12:30 PM"> 12:30 PM </option>
+													<option value="1:00 PM"> 1:00 PM </option>
+													<option value="1:30 PM"> 1:30 PM </option>
+													<option value="2:00 PM"> 2:00 PM </option>
+													<option value="2:30 PM"> 2:30 PM </option>
+													<option value="3:00 PM"> 3:00 PM </option>
+													<option value="3:30 PM"> 3:30 PM </option>
+													<option value="4:00 PM"> 4:00 PM </option>
+													<option value="4:30 PM"> 4:30 PM </option>
+													<option value="5:00 PM"> 5:00 PM </option>
+													<option value="5:30 PM"> 5:30 PM </option>
+													<option value="6:00 PM"> 6:00 PM </option>
+													<option value="6:30 PM"> 6:30 PM </option>
+													<option value="7:00 PM"> 7:00 PM </option>
+													<option value="7:30 PM"> 7:30 PM </option>
+													<option value="8:00 PM"> 8:00 PM </option>
+													<option value="8:30 PM"> 8:30 PM </option>
+													<option value="9:00 PM"> 9:00 PM </option>
+													<option value="9:30 PM"> 9:30 PM </option>
+													<option value="10:00 PM"> 10:00 PM </option>
+													<option value="10:30 PM"> 10:30 PM </option>
+													<option value="11:00 PM"> 11:00 PM </option>
+													<option value="11:30 PM"> 11:30 PM </option>
+													<option value="11:45 PM"> 11:45 PM </option>
+													<option value="12:00 AM"> 12:00 AM </option>
+													<option value="12:30 AM"> 12:30 AM </option>
+													<option value="1:00 AM"> 1:00 AM </option>
+													<option value="1:30 AM"> 1:30 AM </option>
+													<option value="2:00 AM"> 2:00 AM </option>
+													<option value="2:30 AM"> 2:30 AM </option>
+													<option value="3:00 AM"> 3:00 AM </option>
+													<option value="3:30 AM"> 3:30 AM </option>
+													<option value="4:00 AM"> 4:00 AM </option>
+													<option value="4:30 AM"> 4:30 AM </option>
+													<option value="5:00 AM"> 5:00 AM </option>
+													<option value="5:30 AM"> 5:30 AM </option>
+													<option value="6:00 AM"> 6:00 AM </option>
+													<option value="6:30 AM"> 6:30 AM </option>
+													<option value="7:00 AM"> 7:00 AM </option>
+													<option value="7:30 AM"> 7:30 AM </option>
+												</select>
+											</div>
+									</div>
+								</div>
+							</div>
+							<div class="fieldset-wrapper">
+
+
+								<fieldset class="repeating-options">
+									<legend>Does this deployment schedule repeat?</legend>
+
+									<div class="repeat-section">
+										<input type="radio" name="repeat" value="never" id="repeat-never" checked="checked">
+
+										<label for="repeat-never">Never, this is a one-time event</label>
+									</div>
+
+
+									<div class="repeat-section">
+										<input type="radio" name="repeat" value="daily" id="repeat-daily">
+										<label for="repeat-daily">Daily</label>
+										<div class="repeat-section-content">
+											<p>
+												Every
+
+												<label class="hidden" for="day-repeat"> Repeat after this many days</label>
+
+												<input type="text" name="repeat-days" class="short repeat" value="1" id="day-repeat"> days
+											</p>
+										</div>
+									</div>
+
+									<div class="repeat-section">
+										<input type="radio" name="repeat" value="daily" id="repeat-weekly" >
+										<label for="repeat-weekly">Weekly</label>
+
+										<div class="repeat-section-content">
+											<p>
+												Every
+
+												<label class="hidden" for="repeat-weekly-days"> Repeat after this many weeks</label>
+
+												<input type="text" name="repeat-weekly-day" class="short repeat" value="1" id="repeat-weekly-days">
+												weeks on
+
+												<label class="hidden" for="repeat-weekly-day"> Repeat on this day of the week</label>
+
+
+												<select name="days" class="select-day" id="repeat-weekly-day">
+													<option value="Monday">Monday</option>
+													<option value="Tuesday">Tuesday</option>
+													<option value="Wednesday">Wednesday</option>
+													<option value="Thursday">Thursday</option>
+													<option value="Friday">Friday</option>
+													<option value="Saturday">Saturday</option>
+													<option value="Sunday">Sunday</option>
+												</select>
+											</p>
+										</div>
+									</div>
+									<div class="repeat-section">
+										<input type="radio" name="repeat" value="monthly" id="repeat-monthly">
+
+										<label for="repeat-monthly">Monthly</label>
+
+										<div class="repeat-section-content">
+											<p>
+												<span>Every</span>
+
+												<label class="hidden" for="repeat-monthly-days"> Repeat after this many months</label>
+
+												<input type="text" name="repeat-monthly-days" class="short repeat" value="1" id="repeat-monthly-days">
+												<span>Months on the</span>
+												<label class="hidden" for="repeat-monthly-recurring-day-frequency"> Repeat on this occurance of the day</label>
+												<select name="repeat-monthly-recurring-day-frequency" class="select-recurring-frequency" id="repeat-monthly-recurring-day-frequency">
+													<option value="First">First</option>
+													<option value="Second">Second</option>
+													<option value="Third">Third</option>
+													<option value="Fourth">Fourth</option>
+													<option value="Last">Last</option>
+												</select>
+												<label class="hidden" for="repeat-monthly-recurring-day"> Repeat on this day of week</label>
+												<select name="repeat-monthly-recurring-day" class="select-day" id="repeat-monthly-recurring-day">
+													<option value="Monday">Monday</option>
+													<option value="Tuesday">Tuesday</option>
+													<option value="Wednesday">Wednesday</option>
+													<option value="Thursday">Thursday</option>
+													<option value="Friday">Friday</option>
+													<option value="Saturday">Saturday</option>
+													<option value="Sunday">Sunday</option>
+												</select>
+											</p>
+										</div>
+									</div>
+
+									<div class="repeat-section">
+										<input type="radio" name="repeat" value="yearly" id="repeat-yearly">
+
+										<label for="repeat-yearly">Yearly</label>
+
+										<div class="repeat-section-content">
+											<p>
+												Every
+												<label class="hidden" for="repeat-yearly-years">Repeat after this many years</label>
+
+												<input type="text" name="repeat-yearly-years" class="short repeat" value="1" id="repeat-yearly-years">
+												Years on
+
+												<label class="hidden" for="repeat-yearly-months">Repeat on this month</label>
+
+												<select name="yearly-repeat-months" class="select-months" id="repeat-yearly-months">
+													<option value="January">January</option>
+													<option value="February">February</option>
+													<option value="March">March</option>
+													<option value="April">April</option>
+													<option value="May">May</option>
+													<option value="June">June</option>
+													<option value="July">July</option>
+													<option value="August">August</option>
+													<option value="September">September</option>
+													<option value="October">October</option>
+													<option value="November">November</option>
+													<option value="December">December</option>
+												</select>
+
+												<label class="hidden" for="repeat-yearly-date"> Repeat on this Date</label>
+
+
+												<select name="repeat-yearly-date" class="select-date" id="repeat-yearly-date">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+													<option value="6">6</option>
+													<option value="7">7</option>
+													<option value="8">8</option>
+													<option value="9">9</option>
+													<option value="10">10</option>
+													<option value="11">11</option>
+													<option value="12">12</option>
+													<option value="13">13</option>
+													<option value="14">14</option>
+													<option value="15">15</option>
+													<option value="16">16</option>
+													<option value="17">17</option>
+													<option value="18">18</option>
+													<option value="19">19</option>
+													<option value="20">20</option>
+													<option value="21">21</option>
+													<option value="22">22</option>
+													<option value="23">23</option>
+													<option value="24">24</option>
+													<option value="25">25</option>
+													<option value="26">26</option>
+													<option value="27">27</option>
+													<option value="28">28</option>
+													<option value="29">29</option>
+													<option value="30">30</option>
+													<option value="31">31</option>
+												</select>
+											</p>
+										</div>
+									</div>
+
+								</fieldset>
+	
+								<button type="button" onclick="cu_stream.update_deployment_config();">Add/Update Configuration</button>
+								<button type="button" onclick="cu_stream.delete_deployment_config();">Delete Configuration</button>
+							</div>
+						</form>
+
+					</section>
+
+
+				</article>
+			</main>
+
+
+
+			<!-- END MAIN CONTENT -->
+
+
+
+			<div class="secondary border-box" id="sidebar-bottom">
+				<h2 class="sans">More AppStream Links</h2>
+
+				<ul class="list-menu links vertical">
+					<li>
+						<a href="https://confluence.cornell.edu/pages/viewpage.action?pageId=347343094">AppStream Documentation</a>
+					</li>
+					<li>
+						<a href="https://cornell.qualtrics.com/jfe/form/SV_eg1OSpRoHNpXEYB">AppStream Survey</a>
+					</li>
+					<li>
+						<a href="mailto:appstream@cornell.edu">AppStream Support</a>
+					</li>
+				</ul>
+			</div>
+
+
+		</div>
+	</section>
+
+	<footer class="band" role="contentinfo">
+		<div class="container">
+			<div class="three-col">
+				<div class="col1">
+					<h2 class="sans">Support</h2>
+
+					<ul class="list-menu vertical support-links sans">
+						<li><a class="link-icon url" href="/support"><span class="fa fa-life-ring"></span><span class="deco">Get Help</span></a></li>
+						<li><a class="link-icon url" href="/training"><span class="zmdi zmdi-library"></span><span class="deco">IT Training</span></a></li>
+						<li><a class="link-icon url" href="/verified-cornell-communications"><span class="icon icon-info-news"></span><span class="deco">Verified Cornell Communications</span></a></li>
+					</ul>
+
+				</div>
+				<div class="col2">
+						<p>&nbsp;</p>
+				</div>
+				<div class="col3">
+					<h2 class="sans">Follow IT@Cornell on...</h2>
+					<ul class="list-menu social sans">
+						<li><a class="facebook" href="https://www.facebook.com/it.cornell"><span class="fa fa-facebook-official"></span><span class="deco">Facebook</span></a></li>
+						<li><a class="twitter" href="https://twitter.com/Cornell_IT"><span class="fa fa-twitter"></span><span class="deco">Twitter</span></a></li>
+						<li><a class="yammer" href="http://yammer.com/office365"><span class="service-logo icon-yammer"></span><span class="deco">Yammer</span></a></li>
+					</ul>
+				</div>
+			</div>
+			<p><a href="https://www.cornell.edu/">Cornell University</a> &copy;2018</p>
+		</div>
+	</footer>
+
+	<script src="js/datepicker/datepicker-accessible-extensions.js"></script>
+
+</body>
+</html>

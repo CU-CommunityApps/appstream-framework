@@ -1,0 +1,37 @@
+.home #subheader #greenbox {
+	background: #a7cf6f;
+}
+.home #quick-links .social img {
+	max-width: none;
+}
+#quick-search input[type='text'] {
+	line-height: 2.6em;
+}
+#audience.open {
+	max-height: none;
+}
+#featured-services .news img {
+	max-width: none;
+	width: 100%;
+	height: auto;
+}
+#alerts {
+	background: #f1f2e0;
+}
+body > footer.band {
+	background: #4a5a6d;
+}
+#site-header {
+	background: #374047;
+}
+#site-header h1 {
+	width: 220px;
+	height: 80px;
+	margin-top: -6px;
+}
+#subheader {
+	background: #c7e69b;
+}
+.band.accent1 {
+	background: #93becf;
+}

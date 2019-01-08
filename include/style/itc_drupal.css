@@ -1,0 +1,334 @@
+/* CSS for Drupal Admin elements that render in the front-end theme
+	************************************************************************ */
+
+form.comment-form label, form.comment-form #edit-actions input, .comment ul.links.inline li a, .comment-badge {
+	font-family: Avenir Next, Proxima Nova, 'proxima-nova', Segoe UI, Helvetica Neue, sans-serif;
+}
+.workbench-info-block a:before {
+	font: normal normal normal 14px/1 FontAwesome;
+	speak: none;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+form.comment-form a.username:before {
+	display: inline-block;
+	font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+	font-size: inherit;
+	speak: none;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Article Comments
+	***************************************** */
+
+#comments {
+
+}
+#comments .pager {
+	margin: 2em 0 5em;
+}
+#comments .pager li {
+	font-size: 13px;
+}
+#comments > h2.title {
+	font-size: 22px;
+	padding-bottom: 0.25em;
+	margin-bottom: 1.5em;
+	border-bottom: 1px solid #d9e7ed;
+}
+form.comment-form label {
+	font-family: Avenir Next, Proxima Nova, 'proxima-nova', Segoe UI, Helvetica Neue, sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 600;
+	margin-bottom: 0.4em;
+}
+form.comment-form .form-item a.username {
+	display: ineline-block;
+	background: #fff;
+	text-decoration: none;
+	padding: 5px 10px;
+	font-size: 13px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+form.comment-form .form-item a.username:before {
+	content: '\f203';
+	padding-right: 5px;
+	font-size: 16px;
+	position: relative;
+	top: 1px;
+}
+.block form.comment-form .form-item, .block form.comment-form .form-wrapper {
+	margin-bottom: 1.5em;
+}
+.block form.comment-form .form-item.form-type-radio {
+	margin: 0.25em 0 !important;
+}
+form.comment-form .form-radios {
+	margin: 0.25em 0;
+}
+form.comment-form .form-type-radio label, form.comment-form .form-type-checkbox label {
+	text-transform: none;
+	display: inline;
+}
+form.comment-form .filter-wrapper {
+	display: none;
+}
+form.comment-form .ckeditor_links {
+	font-size: 13px;
+	position: relative;
+	top: -10px;
+}
+form.comment-form #edit-actions input {
+	margin-right: 0.75em;
+	min-width: 20%;
+	line-height: 1;
+	padding: 10px 20px;
+}
+form.comment-form #edit-actions #edit-preview {
+	background: #999;
+}
+form.comment-form #edit-actions #edit-preview:hover {
+	background: #777;
+}
+form.comment-form #edit-actions #edit-preview:active {
+	background: #555;
+}
+#comments .flag-comment-is-resolved a, .comment ul.links.inline .flag-comment-is-resolved a {
+	margin-left: 12px;
+	background: #7ab034;
+}
+#comments .flag-comment-is-resolved a:hover, .comment ul.links.inline .flag-comment-is-resolved a:hover {
+	background: #5e8e21;
+}
+#comments .flag-comment-is-resolved a:active, .comment ul.links.inline .flag-comment-is-resolved a:active {
+	background: #436418;
+}
+#comments .flag-comment-is-resolved .unflag-action, .comment ul.links.inline .flag-comment-is-resolved .unflag-action {
+	opacity: 0.25;
+}
+#edit-actions + .node {
+	margin-top: 10em;
+}
+form.comment-form .new, #comments .new {
+	position: relative;
+	display: inline-block;
+	left: -4em;
+	width: 4em;
+	height: 4em;
+	background: #7ab034;
+	color: #fff;
+	font-weight: bold;
+	-moz-border-radius: 20em;
+	-webkit-border-radius: 20em;
+	border-radius: 20em;
+	line-height: 4em;
+	text-align: center;
+	font-size: 12px;
+}
+form.comment-form .comment h3, #comments .comment h3, .comment h3 {
+	font-size: 21px;
+	color: #333;
+}
+form.comment-form .comment h3 a, #comments .comment h3 a, .comment h3 a {
+	color: inherit;
+	text-decoration: none;
+}
+#comments .comment, .comment {
+	border-top: 1px solid #d9e7ed;
+	padding-top: 25px;
+	margin-bottom: 35px;
+	float: left;
+	width: 100%;
+	clear: both;
+}
+#comments .comment:first-of-type, .comment:first-of-type {
+	border-top: 0;
+}
+form.comment-form .submitted, #comments .submitted, .comment .submitted {
+	font-size: 13px;
+	color: #999;
+	margin: -10px 0 2em;
+}
+form.comment-form .submitted .permalink, #comments .submitted .permalink, .comment .submitted .permalink {
+	margin-right: 12px;
+}
+form.comment-form .comment .field, #comments .comment .field, .comment .field {
+	margin-bottom: 1.5em;
+}
+form.comment-form .comment .field-name-comment-body, #comments .comment .field-name-comment-body, .comment .field-name-comment-body {
+	margin-bottom: 2.5em;
+}
+.comment .field-name-field-comment-level {
+	margin: -1.25em 0 2em !important;
+}
+.field-name-field-comment-level .field-item {
+	display: inline-block;
+	background: #999;
+	color: #fff;
+	font-size: 11px;
+	padding: 2px 12px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.field-name-field-comment-level .field-item.major {
+	background: #c44c49;
+}
+form.comment-form .links, #comments .links {
+	margin: 0 0 1.5em;
+}
+form.comment-form .links li, #comments .links li {
+	background: none;
+	padding: 0;
+}
+form.comment-form .comment + .form-item, #comments .comment + .form-item {
+	margin-top: 5em;
+	padding-top: 2em;
+	border-top: 1px solid rgba(0,0,0,0.09);
+}
+.field-name-field-comment-resolved {
+	color: #c44c49;
+	font-size: 13px;
+	margin-bottom: 0.5em !important;
+}
+.field-name-field-comment-resolved label {
+	color: #000;
+}
+.comment-wrapper .indented {
+	position: relative;
+	padding-left: 25px;
+	float: left;
+	width: 100%;
+	border-top: 3px solid #81b2cc;
+	margin-bottom: 1.5em;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: rgba(40,111,148,0.1);
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjg2Zjk0IiBzdG9wLW9wYWNpdHk9IjAuMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiMyODZmOTQiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(-45deg,  rgba(40,111,148,0.1) 0%, rgba(40,111,148,0) 50%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(40,111,148,0.1)), color-stop(50%,rgba(40,111,148,0)));
+	background: -webkit-linear-gradient(-45deg,  rgba(40,111,148,0.1) 0%,rgba(40,111,148,0) 50%);
+	background: -o-linear-gradient(-45deg,  rgba(40,111,148,0.1) 0%,rgba(40,111,148,0) 50%);
+	background: -ms-linear-gradient(-45deg,  rgba(40,111,148,0.1) 0%,rgba(40,111,148,0) 50%);
+	background: linear-gradient(135deg,  rgba(40,111,148,0.1) 0%,rgba(40,111,148,0) 50%);
+}
+.comment-wrapper .indented:before {
+	content: '';
+	background: url('../images/itc/dotdotdot.svg') 0 50% no-repeat;
+	display: inline-block;
+	width: 48px;
+	height: 8px;
+	position: absolute;
+	top: -24px;
+	left: 0;
+}
+.show-comments {
+	position: relative;
+}
+.comment-badge {
+	position: absolute;
+	left: 0;
+	bottom: 14px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.comment-badge .comment-new {
+	color: #7ab034;
+}
+
+
+/* Revisions Block
+	***************************************** */
+
+.region-workbench {
+	float: left;
+	width: 100%;
+	padding: 10px 14px;
+	border: 1px solid rgba(0,0,0,0.05);
+	background: rgba(0,0,0,0.03);
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 1.5em;
+	font-size: 13px;
+}
+.unpublished .region-workbench {
+	border-width: 0;
+}
+.workbench-info-block {
+	line-height: 2;
+	float: left;
+	width: 100%;
+	padding-bottom: 1em !important;
+	margin-bottom: 1.5em !important;
+	border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+.workbench-info-block em {
+	font-style: normal;
+	font-weight: bold;
+	margin-left: 6px;
+}
+.workbench-info-block a {
+	display: inline-block;
+	text-decoration: none;
+	background: rgba(0,0,0,0.05);
+	padding: 1px 8px;
+	font-weight: normal;
+	margin-top: 1px;
+}
+.workbench-info-block a:before {
+	content: '\f0c5';
+	padding-right: 6px;
+}
+/* incomplete... */
+
+
+/* Taxonomy Term Node Listing
+	***************************************** */
+
+.page-taxonomy .node .links {
+	margin-left: 0;
+}
+.page-taxonomy .node .links li {
+	background: none;
+	padding-left: 0;
+	margin-right: 15px;
+}
+.view-itc-taxonomy-term .views-row {
+	padding: 2em 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+.view-itc-taxonomy-term .views-row .node {
+	padding: 0 !important;
+	margin: 0 !important;
+	border: 0 !important;
+}
+.view-itc-taxonomy-term .field-name-title h3 {
+	margin-bottom: 1em;
+}
+.view-itc-taxonomy-term .field-name-body {
+	font-size: 13px;
+}
+.view-itc-taxonomy-term .field-name-body p {
+	display: inline;
+}
+.view-itc-taxonomy-term .more-link {
+	white-space: nowrap;
+	margin-left: 8px;
+}
+

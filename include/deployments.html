@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-<title>Apps on Demand Portal</title>
+<title>Deployment Management | Cornell Stream | IT@Cornell</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
@@ -22,7 +22,6 @@
 	<![endif]-->
 
 	<!--<script src="js/jquery-1.12.3.min.js"></script>-->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 	<script src="js/jquery-migrate-1.3.0.min.js"></script>
 	<script src="js/jquery-ui-easing.min.js"></script>
@@ -32,13 +31,9 @@
 	<script src="js/framework/cwd.js"></script>
 	<script src="js/framework/cwd_utilities.js"></script>
 	<script src="js/framework/itc.js"></script>
-
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.structure.min.css">
-	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.theme.min.css">
-
+	
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
-
+	
 	<!-- API Gateway Scripts -->
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
@@ -51,12 +46,27 @@
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
 	<script type="text/javascript" src="/api/js/apiGateway-js-sdk/apigClient.js"></script>
-
+	
 	<script type="text/javascript" src="/api/js/cornell-serverless.js"></script>
 	<script type="text/javascript" src="/api/js/cornell-stream.js"></script>
 
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.structure.min.css">
+	<link rel="stylesheet" type="text/css" media="all" href="style/jquery-ui.theme.min.css">
+
 	<script src="js/datepicker/jquery-ui.min.js"></script>
 
+
+	<script type="text/javascript">
+		/*global CornellStream*/
+		
+		var cu_stream = null;
+		
+		window.addEventListener('load', function(e) {
+			cu_stream = new CornellStream();
+			cu_stream.init_deployments_page();
+		});
+	</script>
 
 </head>
 <body class="cu-red45 cu-2014 campaign sidebar sidebar-right sidebar-tint sidebar-tint-edge node-type-knowledge-base-article">
@@ -71,7 +81,7 @@
 
 				<div class="valign">
 					<div id="cu-search" class="options" role="search">
-						<form action="http://www.cornell.edu/search/">
+						<form action="https://www.cornell.edu/search/">
 							<label for="search-form-query" class="sans">Search:</label>
 							<input type="text" id="search-form-query" name="s" value="" size="30" />
 							<button name="btnG" id="search-form-submit" type="submit" value="go"><span class="fa fa-chevron-right"></span><span class="hidden">Go</span></button>
@@ -98,7 +108,7 @@
 					<a class="mobile-button" id="search-button" href="#search-form">Search Cornell</a>
 				</div>
 				<div id="cu-logo">
-					<a href="http://www.cornell.edu/"><img src="images/cornell_identity/culogo_hd.gif" width="179" height="45" alt="Cornell University"></a>
+					<a href="https://www.cornell.edu/"><img src="images/cornell_identity/culogo_hd.gif" width="179" height="45" alt="Cornell University"></a>
 				</div>
 			</div>
 		</div>
@@ -142,7 +152,7 @@
 		<div class="container">
 
 			<div aria-label="Quick Search" id="quick-search" role="search">
-				<form action="http://www.cornell.edu/search/">
+				<form action="https://www.cornell.edu/search/">
 					<!-- <label for="quick-search-query" class="sans hidden">Search:</label> -->
 					<input type="text" id="quick-search-query" name="s" value="" size="30" placeholder="Google Search..." required>
 					<button name="btnG" id="quick-search-submit" type="submit" value="go"><span class="fa fa-search"></span><span class="hidden">Go</span></button>
@@ -186,7 +196,7 @@
 
 			<div class="secondary border-box" id="sidebar-top">
 
-				<h2 class="sans">AppStream Links</h2>
+				<h2 class="sans">Primary Sidebar Content</h2>
 
 				<ul class="list-menu links vertical">
 					<li>
@@ -205,7 +215,7 @@
 						<a href="schedules.html">Deployment Schedules</a>
 					</li>
 					<li>
-						<a href="package.html">Packages</a>
+						<a href="packages.html">Packages</a>
 					</li>
 					<li>
 						<a href="usage.html">Usage</a>
@@ -215,46 +225,138 @@
 
 
 			</div>
+			
+			
+			
+			
+			
+			<!-- MAIN CONTENT -->
+			
+			
+			
+			
+			
 
 			<main id="main" tabindex="-1" class="aria-target border-box">
 				<article>
 
 					<section aria-labelledby="appstream-title">
 
-						<h1 id="appstream-title">
-							<span class="zmdi zmdi-open-in-browser appstream-icon"></span>
-							Apps on Demand Application Portal
-						</h1>
+						<h1 id="appstream-title">Cornell Stream Deployment Configurations</h1>
 
-						<div class="dropdown-list-wrapper">
+						<form class="form-basic">
 
-							<button aria-haspopup="true" class="dropdown-list-button">Choose a course <span class="fa fa-caret-down" aria-hidden="true"></span></button>
+							<div class="group">
+								<h2>Filter by Unit</h2>
+								<p>Please choose a unit. Selecting a unit will change the list of available deployments.</p>
 
-							<ul aria-role="menu" aria-expanded="false" class="dropdown-list list-menu links vertical">
+								<label for="cu-stream-unit-select">Unit</label>
+								<select name="unit-select" id="cu-stream-unit-select" onchange="cu_stream.list_deployments(this.value);">
+									<option value=" " selected disabled hidden>Select a Unit to view its Deployments...</option>
+								</select>
+							</div>
+							
+							<div class="group">
+								<h2>Select a Deployment</h2>
+								<p>Please choose a deployment. Selecting a deployment will populate the form below with information about the deployment.</p>
+								
+								<label for="cu-stream-deployment-select">Deployment</label>
+								<select name="deployment-select" id="cu-stream-deployment-select" onchange="cu_stream.edit_deployment(this.value);">
+									<option value=" " selected disabled hidden>Select a Deployment to view its configuration...</option>
+								</select>
+							</div>
 
-								<ul>{stack_links}</ul>
-								<!-- <li><a href="http://www.google.com" role="menuitem">MAE 4230/5230</a></li>
-								<li><a href="#" role="menuitem">CIT Demo</a></li>
-								<li><a href="#" role="menuitem">MAE 1130</a></li>
-								<li><a href="#" role="menuitem">MAE 2250</a></li>
-								<li><a href="#" role="menuitem">MAE 3280</a></li> -->
+							<div class="group">
+								<h2>Create, Update or Delete a Deployment</h2>
 
-							</ul>
-
-						</div>
-
-						<p>Please <a href="https://cornell.qualtrics.com/jfe/form/SV_2gzMh6zihPBbGKh" target="_blank">give us feedback</a> on your experience with AppStream. We can almost certainly improve any aspect of your experience, but we need to know what you would like changed. We would especially like to know if you really like using AppStream!</p>
-
-						<p>For help, please take a look at our <a href="https://confluence.cornell.edu/pages/viewpage.action?pageId=347343094" target="_blank">documentation page</a>. There is a video and written instructions with screenshots.</p>
-
-						<p>For support, please send an email to <a href="mailto:appstream@cornell.edu">appstream@cornell.edu</a> and we will be in touch within one business day.</p>
-
+								<div class="two-col form-col">
+									<div class="col-wide">
+										<label for="cu-stream-deployment-name">Deployment Name</label>
+										<input id="cu-stream-deployment-name" type="text" />
+									</div>
+									
+									<div class="col-wide">
+										<label for="cu-stream-deployment-email">Contact / Tester Email</label>
+										<input id="cu-stream-deployment-email" type="text" />
+									</div>
+								</div>
+								
+								<label for="cu-stream-deployment-image">Image Name</label>
+								<input id="cu-stream-deployment-image" type="text" />
+								
+								<div class="two-col form-col">
+									<div class="col-wide">
+										<label for="cu-stream-fleet-instance-type">Instance Type</label>
+										<select name="fleet-instance-type-select" id="cu-stream-fleet-instance-type">
+											<option selected>stream.standard.medium</option>
+											<option>stream.standard.large</option>
+											<option>stream.compute.large</option>
+											<option>stream.compute.xlarge</option>
+											<option>stream.compute.2xlarge</option>
+											<option>stream.compute.4xlarge</option>
+											<option>stream.compute.8xlarge</option>
+											<option>stream.memory.large</option>
+											<option>stream.memory.xlarge</option>
+											<option>stream.memory.2xlarge</option>
+											<option>stream.memory.4xlarge</option>
+											<option>stream.memory.8xlarge</option>
+											<option>stream.graphics-desktop.2xlarge</option>
+											<option>stream.graphics-design.large</option>
+											<option>stream.graphics-design.xlarge</option>
+											<option>stream.graphics-design.2xlarge</option>
+											<option>stream.graphics-design.4xlarge</option>
+											<option>stream.graphics-pro.4xlarge</option>
+											<option>stream.graphics-pro.8xlarge</option>
+											<option>stream.graphics-pro.16xlarge</option>
+										</select>
+									</div>
+									
+									<div class="col-wide">
+										<label for="cu-stream-fleet-type">Fleet Type</label>
+										<select name="fleet-type-select" id="cu-stream-fleet-type">
+											<option value="ON_DEMAND" selected>On Demand</option>
+											<option value="ALWAYS_ON">Always On (expensive)</option>
+										</select>
+									</div>
+								</div>
+								
+								<div class="two-col form-col">
+									<div class="col-wide">
+										<label for="cu-stream-deployment-duration">Max Session Duration</label>
+										<input id="cu-stream-deployment-duration" type="text" />
+									</div>
+									
+									<div class="col-wide">
+										<label for="cu-stream-deployment-timeout">Disconnect Timeout</label>
+										<input id="cu-stream-deployment-timeout" type="text" />
+									</div>
+								</div>
+								
+								<label for="cu-stream-ad-groups">AD group names with access (Semicolon Separated)</label>
+								<input id="cu-stream-ad-groups" type="text" />
+								
+								<label for="cu-stream-course-ids">Course/Section IDs with access (Semicolon Separated)</label>
+								<input id="cu-stream-course-ids" type="text" />
+								
+								<label for="cu-stream-ips">IP address ranges with access (applies only to non-domain-joined, anonymous access streams) (Semicolon Separated)</label>
+								<input id="cu-stream-ips" type="text" />
+								
+								<button type="button" onclick="cu_stream.update_deployment_config();">Create/Update Configuration</button>
+								<button type="button" onclick="cu_stream.delete_deployment_config();">Delete Configuration</button>
+							</div>
+						</form>
 
 					</section>
 
 
 				</article>
 			</main>
+
+
+
+			<!-- END MAIN CONTENT -->
+
+
 
 			<div class="secondary border-box" id="sidebar-bottom">
 				<h2 class="sans">More AppStream Links</h2>
@@ -301,32 +403,11 @@
 					</ul>
 				</div>
 			</div>
-			<p><a href="http://www.cornell.edu/">Cornell University</a> &copy;2018</p>
+			<p><a href="https://www.cornell.edu/">Cornell University</a> &copy;2018</p>
 		</div>
 	</footer>
 
 	<script src="js/datepicker/datepicker-accessible-extensions.js"></script>
-	<script>
-	    $(".dropdown-list-wrapper button").keydown(function() {
-	    	openMenu($(this));
-		    $(this).next('.dropdown-list').find('li:first-of-type a').focus();
-	        return false;
-	    }).click(function() {
-	    	openMenu($(this));
-	        return false;
-	    });
 
-	    function openMenu(el) {
-		    $(el).next('.dropdown-list').find('li:first-of-type a').focus();
-		    $(el).closest('.dropdown-list-wrapper').toggleClass('open');
-	    }
-
-		$('body').click(function(e){
-		    if (!$(e.target).is('.dropdown-list-wrapper button')) {
-		        $('.dropdown-list-wrapper').removeClass('open');
-		        $('.dropdown-list').attr('aria-expanded',false)
-		    }
-		});
-	</script>
 </body>
 </html>
