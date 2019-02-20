@@ -1,5 +1,7 @@
 # appstream-framework
 
+## The static website has been temporarily redirected to the new site until it is retired Fall 19'
+
 To Run in your Image Builder:
 
 1. Run PowerShell as Administrator
